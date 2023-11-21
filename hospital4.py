@@ -1,7 +1,6 @@
 import flwr as fl 
 import time
 import urllib.request
-start_time = time.time()
 def download_url(url, save_as):
     response = urllib.request.urlopen(url)
     data = response.read()
@@ -148,8 +147,6 @@ def train_model(diagnosis_title, input, output, test_input, test_output):
 
 model = train_model(diagnosis_title1, input, output1, test_input, test_output1)
 model = train_model(diagnosis_title2, input, output2, test_input, test_output2)
-end_time = time.time()
-print("Process finished --- %s seconds ---" % (end_time - start_time))
 # Define Flower client
 class FlowerClient(fl.client.Client):
     def __init__(self, model):
