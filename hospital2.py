@@ -145,10 +145,10 @@ def train_model(diagnosis_title, input, output, test_input, test_output):
     test_acc = compute_accuracy(model, test_input, test_output)
     print('\nTesting Accuracy = {}'.format(to_percent(test_acc)))
     return model
-end_time = time.time()
+
 model = train_model(diagnosis_title1, input, output1, test_input, test_output1)
 model = train_model(diagnosis_title2, input, output2, test_input, test_output2)
-
+end_time = time.time()
 print("Process finished --- %s seconds ---" % (end_time - start_time))
 # Define Flower client
 class FlowerClient(fl.client.Client):
