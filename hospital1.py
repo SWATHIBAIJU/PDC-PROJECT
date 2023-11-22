@@ -147,6 +147,24 @@ def train_model(diagnosis_title, input, output, test_input, test_output):
 
 model = train_model(diagnosis_title1, input, output1, test_input, test_output1)
 model = train_model(diagnosis_title2, input, output2, test_input, test_output2)
+# Divide the data into subsets for each client
+client_data = np.array_split(matrix, num_clients)
+# Define a custom dataset class for each client
+class CustomDataset(data_utils.Dataset):
+    def _init_(self, data):
+        self.data = data
+
+    def _len_(self):
+        return len(self.data)
+
+    def _getitem_(self, idx):
+        return self.data[idx, :6], self.data[idx, 6:]
+
+# Create datasets and dataloaders for each client with adjusted batch size
+batch_size_per_client = 20
+clients_datasets = [CustomDataset(client) for client in client_data]
+clients_dataloaders = [torch.utils.data.DataLoader(dataset, batch_size=batch_size_per_client, shuffle=True) for dataset in clients_datasets]
+
 # Define Flower client
 class FlowerClient(fl.client.Client):
     def __init__(self, model):
