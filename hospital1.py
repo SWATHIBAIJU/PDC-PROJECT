@@ -84,7 +84,7 @@ import torch.nn.functional as F
 
 input_size = 6
 learning_rate = 0.01
-num_iterations = 20000
+num_iterations = 2000
 
 class LogisticRegression(torch.nn.Module):
 
@@ -135,7 +135,7 @@ def train_model(diagnosis_title, input, output, test_input, test_output):
             loss = criterion(prediction.view(-1), output)
             loss.backward()
             optimizer.step()
-            if iteration % 500 == 0:
+            if iteration % 50 == 0:
                 train_acc = compute_accuracy(model, input, output)
                 train_loss = loss.item()
                 losses.append(train_loss)
